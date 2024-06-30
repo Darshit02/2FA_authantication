@@ -10,7 +10,7 @@ export const Social = () => {
             <Button size='lg' className="w-full" variant="outline" onClick={() => {}} >
                 <FcGoogle size={20} />
             </Button>
-            <Button size='lg' className="w-full" variant="default" onClick={() => {}}>
+            <Button size='lg' className="w-full" variant="outline" onClick={() => {}}>
                 <FaGithub size={20} />
             </Button>
         </div>
