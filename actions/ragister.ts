@@ -1,6 +1,9 @@
 "use server";
 import { z } from "zod";
 import { RagisterSchema } from "@/schemas";
+import bcrypt from "bcrypt";
+import { db } from "@/lib/db";
+import { getUserByEmail } from "@/data/user";
 
 export const ragister = async (values: z.infer<typeof RagisterSchema>) => {
   const validateFields = RagisterSchema.safeParse(values);
@@ -10,7 +13,28 @@ export const ragister = async (values: z.infer<typeof RagisterSchema>) => {
       error: "Invalid fields",
     };
   }
+  const { email, password, name } = validateFields.data;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  const existingUser = await getUserByEmail(email);
+
+  if (existingUser) {
+    return {
+      error: "User already exists",
+    };
+  }
+
+  await db.user.create({
+    data: {
+      name,
+      email,
+      password: hashedPassword,
+    },
+  });
+
+  //TODO : Send Varification Email
+
   return {
-    success: "Email sent",
+    success: "User Created Successfully!",
   };
 };
