@@ -4,6 +4,9 @@ import { RagisterSchema } from "@/schemas";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
+import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
+
 
 export const ragister = async (values: z.infer<typeof RagisterSchema>) => {
   const validateFields = RagisterSchema.safeParse(values);
@@ -32,9 +35,11 @@ export const ragister = async (values: z.infer<typeof RagisterSchema>) => {
     },
   });
 
+  const verificationToken = await generateVerificationToken(email);
   //TODO : Send Varification Email
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
   return {
-    success: "User Created Successfully!",
+    success: "confirmation email sent",
   };
 };
