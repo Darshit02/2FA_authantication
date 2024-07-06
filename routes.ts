@@ -3,9 +3,9 @@ a single string element `"/"`. This variable can be imported and used in other m
 within the TypeScript project. */
 // @type {string[]}
 
-export const publicRoutes = ["/","/auth/new-verification"];
+export const publicRoutes = ["/","/auth/new-verification" ,"/auth/new-password"];
 
-export const authRoutes = ["/auth/login", "/auth/register" ,"/auth/error"];
+export const authRoutes = ["/auth/login", "/auth/register" ,"/auth/error","/auth/reset"];
 
 export const apiAuthPrefix = "/api/auth";
 
